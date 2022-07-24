@@ -53,4 +53,21 @@ const createPost = async (req: Request, res: Response) => {
     });
 };
 
-export default { getHelloWorld, createPost };
+const getPost = async (req: Request, res: Response) => {
+    let result: any;
+    
+    try {
+        result = await PostModel.findOne({ _id: req.query._id });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "An error has occurred."
+        })
+    }
+
+    return res.status(200).json({
+        message: result
+    });
+};
+
+export default { getHelloWorld, createPost, getPost };

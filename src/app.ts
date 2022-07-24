@@ -22,6 +22,7 @@ router.use((req, res, next) => {
 // Route configuration
 router.use('/', routes);
 router.use('/createPost', routes);
+router.use('getPost', routes)
 
 // Error handling
 router.use((req, res, next) => {

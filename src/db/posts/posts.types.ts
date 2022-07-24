@@ -8,9 +8,15 @@ export interface IPost {
     user_id: Number;
 }
 
-export interface IPostDocument extends IPost, Document<any, any, any> {
+export interface IPostDocument extends IPost, Document {
     id:String;
     createPost: (newPost: IPost) => Promise<IPostDocument>;
 }
 
-export interface IPostModel extends Model<IPostDocument> {}
+export interface IPostModel extends Model<IPostDocument> {
+    getPost: (
+        {
+            _id
+        }: {_id: string}
+      ) => Promise<IPostDocument>;
+}
