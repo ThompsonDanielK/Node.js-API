@@ -14,6 +14,19 @@ const getHelloWorld = async (req: Request, res: Response) => {
 
 // POST request to create a post.
 const createPost = async (req: Request, res: Response) => {
+
+    if (req.body.content == "" || req.body.content == null) {
+        return res.status(400).json({
+            message: "Content must not be null or an empty string."
+        })
+    }
+
+    if (req.body.user_id == null) {
+        return res.status(400).json({
+            message: "user_id must not be null."
+        })
+    }
+
     const currentDate = new Date();
 
     const newPost = {
