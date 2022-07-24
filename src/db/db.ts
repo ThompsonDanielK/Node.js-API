@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { PostModel } from "./posts/posts.model";
 
 let database: mongoose.Connection;
 

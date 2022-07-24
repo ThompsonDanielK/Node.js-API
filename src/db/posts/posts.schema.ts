@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
-import { createPost } from "./posts.methods";
-import { getPost } from "./posts.statics"
+import { createPost, updatePost } from "./posts.methods";
+import { getPost, getPosts, deletePost } from "./posts.statics"
 
 const PostSchema = new Schema({
     content: String,
@@ -11,7 +11,10 @@ const PostSchema = new Schema({
 });
 
 PostSchema.methods.createPost = createPost;
+PostSchema.methods.updatePost = updatePost;
 
 PostSchema.statics.getPost = getPost;
+PostSchema.statics.getPosts = getPosts;
+PostSchema.statics.deletePost = deletePost;
 
 export default PostSchema;

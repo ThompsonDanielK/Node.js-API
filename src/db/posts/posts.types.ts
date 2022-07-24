@@ -1,4 +1,4 @@
-import { Document, Model, ObjectId } from "mongoose";
+import { Document, Model } from "mongoose";
 
 export interface IPost {
     content: String;
@@ -11,6 +11,7 @@ export interface IPost {
 export interface IPostDocument extends IPost, Document {
     id:String;
     createPost: (newPost: IPost) => Promise<IPostDocument>;
+    updatePost: (_id: String, updatedPost: IPost) => Promise<IPostDocument>;
 }
 
 export interface IPostModel extends Model<IPostDocument> {
@@ -18,5 +19,13 @@ export interface IPostModel extends Model<IPostDocument> {
         {
             _id
         }: {_id: string}
-      ) => Promise<IPostDocument>;
+    ) => Promise<IPostDocument>;
+
+    getPosts: () => Promise<IPostDocument>;
+
+    deletePost: (
+        {
+            _id
+        }: {_id: string}
+    ) => Promise<IPostDocument>;
 }
