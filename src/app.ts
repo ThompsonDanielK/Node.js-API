@@ -1,6 +1,7 @@
 import http from 'http';
 import express, { Express } from 'express';
 import routes from './routes/posts';
+import { connect } from "./db/db";
 
 const router: Express = express();
 
@@ -20,6 +21,7 @@ router.use((req, res, next) => {
 
 // Route configuration
 router.use('/', routes);
+router.use('/createPost', routes);
 
 // Error handling
 router.use((req, res, next) => {
@@ -29,7 +31,11 @@ router.use((req, res, next) => {
     });
 });
 
+// Connect to MongoDB via Mongoose
+connect();
+
 // Server startup and port listening
 const httpServer = http.createServer(router);
 const PORT: any = process.env.PORT ?? 6060;
 httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
+

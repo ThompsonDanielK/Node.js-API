@@ -1,0 +1,1 @@
+import { IPostDocument, IPostModel } from "./posts.types";
