@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { PostModel } from "../db/posts/posts.model"
 import { IPostDocument } from "../db/posts/posts.types";
-import iDGenerator from "../utils/iDGenerator";
 
 // POST request to create a post.
 const createPost = async (req: Request, res: Response) => {
