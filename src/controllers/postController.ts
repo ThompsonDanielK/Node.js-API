@@ -24,8 +24,7 @@ const createPost = async (req: Request, res: Response) => {
         content: req.body.content,
         user_id: req.body.user_id,
         created_time: currentDate,
-        updated_time: currentDate,
-        id: iDGenerator.generateID(currentDate)
+        updated_time: currentDate
     };
 
     let result: IPostDocument;

@@ -6,7 +6,6 @@ const PostSchema = new Schema({
     content: String,
     created_time: Date,
     updated_time: Date,
-    id: String,
     user_id: Number
 });
 

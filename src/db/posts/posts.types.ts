@@ -4,12 +4,10 @@ export interface IPost {
     content: String;
     created_time: Date;
     updated_time: Date;
-    id: String;
     user_id: Number;
 }
 
 export interface IPostDocument extends IPost, Document {
-    id:String;
     createPost: (newPost: IPost) => Promise<IPostDocument>;
     updatePost: (_id: String, updatedPost: IPost) => Promise<IPostDocument>;
 }
