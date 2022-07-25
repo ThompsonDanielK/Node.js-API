@@ -1,0 +1,1 @@
+import { IComment, ICommentDocument } from "./comments.types";
