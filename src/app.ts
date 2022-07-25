@@ -1,6 +1,6 @@
 import http from 'http';
 import express, { Express } from 'express';
-import routes from './routes/posts';
+import routes from './routes/router';
 import { connect } from "./db/db";
 
 const router: Express = express();
@@ -19,13 +19,20 @@ router.use((req, res, next) => {
     next();
 });
 
-// Route configuration
+// Route configuration for posts
 router.use('/', routes);
 router.use('/createPost', routes);
 router.use('/getPost', routes);
 router.use('/getPosts', routes);
 router.use('/updatePost', routes);
-router.use('/deletePost', routes)
+router.use('/deletePost', routes);
+
+// Route configuration for comments
+router.use('/createComment', routes);
+router.use('/getComment', routes);
+router.use('/getComments', routes);
+router.use('/updateComment', routes);
+router.use('/deleteComment', routes);
 
 // Error handling
 router.use((req, res, next) => {

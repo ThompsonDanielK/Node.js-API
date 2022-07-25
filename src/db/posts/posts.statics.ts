@@ -1,4 +1,4 @@
-import { IPostModel, IPostDocument } from "./posts.types";
+import { IPostDocument } from "./posts.types";
 import { Model } from "mongoose";
 
 export async function getPost(this: Model<IPostDocument>, _id: String): Promise<IPostDocument> {

@@ -21,7 +21,7 @@ export interface IPostModel extends Model<IPostDocument> {
         }: {_id: string}
     ) => Promise<IPostDocument>;
 
-    getPosts: () => Promise<IPostDocument>;
+    getPosts: () => Promise<IPostDocument[]>;
 
     deletePost: (
         {

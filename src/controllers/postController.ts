@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import { PostModel } from "../db/posts/posts.model"
 import { IPostDocument } from "../db/posts/posts.types";
 import iDGenerator from "../utils/iDGenerator";
