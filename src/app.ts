@@ -1,7 +1,7 @@
 import http from 'http';
 import express, { Express } from 'express';
 import routes from './routes/router';
-import { connect } from "./db/db";
+import { connect } from "./app/utils/db";
 
 const router: Express = express();
 
@@ -48,5 +48,7 @@ connect();
 // Server startup and port listening
 const httpServer = http.createServer(router);
 const PORT: any = process.env.PORT ?? 6060;
-httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
+export const server = httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
+
+export default router;
 

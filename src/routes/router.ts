@@ -1,6 +1,6 @@
 import express from 'express';
-import postController from '../controllers/postController';
-import commentController from '../controllers/commentController';
+import postController from '../app/controllers/post.controller';
+import commentController from '../app/controllers/comment.controller';
 
 const router = express.Router();
 

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { PostModel } from "../db/posts/posts.model"
-import { IPostDocument } from "../db/posts/posts.types";
+import { PostModel } from "../models/posts.model";
 
 // POST request to create a post.
 const createPost = async (req: Request, res: Response) => {
@@ -26,7 +25,7 @@ const createPost = async (req: Request, res: Response) => {
         updated_time: currentDate
     };
 
-    let result: IPostDocument;
+    let result: any;
 
     try {
         result = await PostModel.create(newPost);
@@ -45,6 +44,12 @@ const createPost = async (req: Request, res: Response) => {
 // GET request to retrieve post by _id
 const getPost = async (req: Request, res: Response) => {
     let result: any;
+
+    if (req.query._id == "" || req.query._id == null) {
+        return res.status(400).json({
+            message: "The _id query parameter must not be null or an empty string."
+        });
+    }
     
     try {
         result = await PostModel.findOne({ _id: req.query._id });
@@ -55,6 +60,12 @@ const getPost = async (req: Request, res: Response) => {
         });
     }
 
+    if (result == null) {
+        return res.status(404).json({
+            message: "The queried post does not exist."
+        });
+    }
+    
     return res.status(200).json({
         message: result
     });
@@ -118,6 +129,12 @@ const updatePost = async (req: Request, res: Response) => {
         });
     }
 
+    if (result == null) {
+        return res.status(404).json({
+            message: "The queried post does not exist."
+        });
+    }
+
     return res.status(200).json({
         message: result
     });
@@ -126,6 +143,12 @@ const updatePost = async (req: Request, res: Response) => {
 // DELETE request to delete post by _id
 const deletePost = async (req: Request, res: Response) => {
     let result: any;
+
+    if (req.query._id == "" || req.query._id == null) {
+        return res.status(400).json({
+            message: "The _id query parameter must not be null or an empty string."
+        });
+    }
     
     try {
         result = await PostModel.findOneAndDelete({ _id: req.query._id });

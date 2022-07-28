@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
-import { CommentModel } from "../db/comments/comments.model";
-import { ICommentDocument } from "../db/comments/comments.types";
+import { CommentModel } from "../models/comments.model";
 
 // POST request to create a comment.
 const createComment = async (req: Request, res: Response) => {
@@ -33,7 +32,7 @@ const createComment = async (req: Request, res: Response) => {
         post_id: req.body.post_id
     };
 
-    let result: ICommentDocument;
+    let result: any;
 
     try {
         result = await CommentModel.create(newComment);
@@ -59,6 +58,12 @@ const getComment = async (req: Request, res: Response) => {
         console.error(error);
         return res.status(500).json({
             message: "An error has occurred."
+        });
+    }
+
+    if (result == null) {
+        return res.status(404).json({
+            message: "The queried comment does not exist."
         });
     }
 
@@ -122,6 +127,12 @@ const updateComment = async (req: Request, res: Response) => {
         console.error(error);
         return res.status(500).json({
             message: "An error has occurred."
+        });
+    }
+
+    if (result == null) {
+        return res.status(404).json({
+            message: "The queried comment does not exist."
         });
     }
 
