@@ -46,9 +46,15 @@ router.use((req, res, next) => {
 connect();
 
 // Server startup and port listening
+let server: http.Server;
 const httpServer = http.createServer(router);
 const PORT: any = process.env.PORT ?? 6060;
-export const server = httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
+if (process.env.NODE_ENV !== 'test') {
+    server = httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
+} else {
+    server = httpServer.listen(0, () => console.log(`The server is running on port 0`));
+}
 
+export { server };
 export default router;
 

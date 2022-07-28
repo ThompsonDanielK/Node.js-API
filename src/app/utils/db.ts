@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 let database: mongoose.Connection;
 
-export const connect = () => {
+export const connect = async () => {
 
     const uri = "mongodb://127.0.0.1:27017/local";
 
@@ -10,7 +10,7 @@ export const connect = () => {
         return;
     }
 
-    mongoose.connect(uri);
+    await mongoose.connect(uri);
 
     database = mongoose.connection;
 
@@ -29,5 +29,5 @@ export const disconnect = () => {
         return;
     }
     
-    mongoose.disconnect();
+    mongoose.connection.close();
 };
