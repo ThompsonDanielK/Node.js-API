@@ -1,22 +1,23 @@
 import express, { Request, Response } from "express";
 import { CommentModel } from "../models/comments.model";
+import { redisClient } from "../../app";
 
 // POST request to create a comment.
 const createComment = async (req: Request, res: Response) => {
 
-    if (req.body.content == "" || req.body.content == null) {
+    if (!req.body.content) {
         return res.status(400).json({
             message: "Content must not be null or an empty string."
         });
     }
 
-    if (req.body.post_id == "" || req.body.post_id == null) {
+    if (!req.body.post_id) {
         return res.status(400).json({
             message: "post_id must not be null or an empty string."
         });
     }
 
-    if (req.body.user_id == null) {
+    if (!req.body.user_id) {
         return res.status(400).json({
             message: "user_id must not be null."
         });
@@ -36,6 +37,10 @@ const createComment = async (req: Request, res: Response) => {
 
     try {
         result = await CommentModel.create(newComment);
+        if (result) {
+            redisClient.set(`${result._doc._id}`, JSON.stringify(result));
+            redisClient.expire(`${result._doc._id}`, 300);
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -53,7 +58,15 @@ const getComment = async (req: Request, res: Response) => {
     let result: any;
     
     try {
-        result = await CommentModel.findOne({ _id: req.query._id });
+        let queryResult = await redisClient.get(`${req.query._id}`);
+
+        if (queryResult) {
+            result = JSON.parse(queryResult);
+        } else {
+            result = await CommentModel.findOne({ _id: req.query._id });
+            redisClient.set(`${req.query._id}`, JSON.stringify(result));
+        }
+        redisClient.expire(`${req.query._id}`, 300);
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -61,7 +74,7 @@ const getComment = async (req: Request, res: Response) => {
         });
     }
 
-    if (result == null) {
+    if (!result) {
         return res.status(404).json({
             message: "The queried comment does not exist."
         });
@@ -77,7 +90,15 @@ const getComments = async (req: Request, res: Response) => {
     let result: any;
     
     try {
-        result = await CommentModel.find({ post_id: req.query.post_id});
+        let queryResult = await redisClient.get(`comments:${req.query.post_id}`);
+
+        if (queryResult) {
+            result = JSON.parse(queryResult);
+        } else {
+            result = await CommentModel.find({ post_id: req.query.post_id});
+            redisClient.set(`comments:${req.query.post_id}`, JSON.stringify(result));
+        }
+        redisClient.expire(`comments:${req.query.post_id}`, 300);
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -93,19 +114,19 @@ const getComments = async (req: Request, res: Response) => {
 // PUT request to update a comment.
 const updateComment = async (req: Request, res: Response) => {
 
-    if (req.body.content == "" || req.body.content == null) {
+    if (!req.body.content) {
         return res.status(400).json({
             message: "Content must not be null or an empty string."
         });
     }
 
-    if (req.body.user_id == null) {
+    if (!req.body.user_id) {
         return res.status(400).json({
             message: "user_id must not be null."
         });
     }
 
-    if (req.body._id == null) {
+    if (!req.body._id) {
         return res.status(400).json({
             message: "_id must not be null."
         });
@@ -123,6 +144,9 @@ const updateComment = async (req: Request, res: Response) => {
 
     try {
         result = await CommentModel.findOneAndUpdate(req.body._id, updatedComment, {new: true});
+        if (result) {
+            redisClient.set(`${req.body._id}`, JSON.stringify(result));
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -130,7 +154,7 @@ const updateComment = async (req: Request, res: Response) => {
         });
     }
 
-    if (result == null) {
+    if (!result) {
         return res.status(404).json({
             message: "The queried comment does not exist."
         });
@@ -147,6 +171,9 @@ const deleteComment = async (req: Request, res: Response) => {
     
     try {
         result = await CommentModel.findOneAndDelete({ _id: req.query._id });
+        if (result) {
+            redisClient.del(`${req.query._id}`);
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({

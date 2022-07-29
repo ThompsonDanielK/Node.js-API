@@ -1,16 +1,17 @@
 import { Request, Response } from "express";
 import { PostModel } from "../models/posts.model";
+import { redisClient } from "../../app";
 
 // POST request to create a post.
 const createPost = async (req: Request, res: Response) => {
 
-    if (req.body.content == "" || req.body.content == null) {
+    if (!req.body.content) {
         return res.status(400).json({
             message: "Content must not be null or an empty string."
         });
     }
 
-    if (req.body.user_id == null) {
+    if (!req.body.user_id) {
         return res.status(400).json({
             message: "user_id must not be null."
         });
@@ -29,6 +30,10 @@ const createPost = async (req: Request, res: Response) => {
 
     try {
         result = await PostModel.create(newPost);
+        if (result) {
+            redisClient.set(`${result._doc._id}`, JSON.stringify(result));
+            redisClient.expire(`${result._doc._id}`, 300);
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -45,14 +50,22 @@ const createPost = async (req: Request, res: Response) => {
 const getPost = async (req: Request, res: Response) => {
     let result: any;
 
-    if (req.query._id == "" || req.query._id == null) {
+    if (!req.query._id) {
         return res.status(400).json({
             message: "The _id query parameter must not be null or an empty string."
         });
     }
     
     try {
-        result = await PostModel.findOne({ _id: req.query._id });
+        let queryResult = await redisClient.get(`${req.query._id}`);
+
+        if (queryResult) {
+            result = JSON.parse(queryResult);
+        } else {
+            result = await PostModel.findOne({ _id: req.query._id });
+            redisClient.set(`${req.query._id}`, JSON.stringify(result));
+        }
+        redisClient.expire(`${req.query._id}`, 300);
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -60,7 +73,7 @@ const getPost = async (req: Request, res: Response) => {
         });
     }
 
-    if (result == null) {
+    if (!result) {
         return res.status(404).json({
             message: "The queried post does not exist."
         });
@@ -76,7 +89,15 @@ const getPosts = async (req: Request, res: Response) => {
     let result: any;
     
     try {
-        result = await PostModel.find();
+        let queryResult = await redisClient.get(`posts`);
+
+        if (queryResult) {
+            result = JSON.parse(queryResult);
+        } else {
+            result = await PostModel.find();
+            redisClient.set(`posts`, JSON.stringify(result));
+        }
+        redisClient.expire(`posts`, 300);
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -92,19 +113,19 @@ const getPosts = async (req: Request, res: Response) => {
 // PUT request to update a post.
 const updatePost = async (req: Request, res: Response) => {
 
-    if (req.body.content == "" || req.body.content == null) {
+    if (!req.body.content) {
         return res.status(400).json({
             message: "Content must not be null or an empty string."
         });
     }
 
-    if (req.body.user_id == null) {
+    if (!req.body.user_id) {
         return res.status(400).json({
             message: "user_id must not be null."
         });
     }
 
-    if (req.body._id == null) {
+    if (!req.body._id) {
         return res.status(400).json({
             message: "_id must not be null."
         });
@@ -122,6 +143,9 @@ const updatePost = async (req: Request, res: Response) => {
 
     try {
         result = await PostModel.findOneAndUpdate(req.body._id, updatedPost, {new: true});
+        if (result) {
+            redisClient.set(`${req.body._id}`, JSON.stringify(result));
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({
@@ -144,7 +168,7 @@ const updatePost = async (req: Request, res: Response) => {
 const deletePost = async (req: Request, res: Response) => {
     let result: any;
 
-    if (req.query._id == "" || req.query._id == null) {
+    if (!req.query._id) {
         return res.status(400).json({
             message: "The _id query parameter must not be null or an empty string."
         });
@@ -152,6 +176,9 @@ const deletePost = async (req: Request, res: Response) => {
     
     try {
         result = await PostModel.findOneAndDelete({ _id: req.query._id });
+        if (result) {
+            redisClient.del(`${req.query._id}`);
+        }
     } catch (error) {
         console.error(error);
         return res.status(500).json({

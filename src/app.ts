@@ -2,22 +2,19 @@ import http from 'http';
 import express, { Express } from 'express';
 import routes from './routes/router';
 import { connect } from "./app/utils/db";
+import * as redis from 'redis';
 
 const router: Express = express();
+const redisClient = redis.createClient({
+    socket: {
+        host: '127.0.0.1',
+        port: 6379
+    },
+    password: 'Lolo1459*'
+});
 
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
-
-// Server configuration
-router.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'origin, X-Requested-With,Content-Type,Accept, Authorization');
-    if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST');
-        return res.status(200).json({});
-    }
-    next();
-});
 
 // Route configuration for posts
 router.use('/', routes);
@@ -42,6 +39,9 @@ router.use((req, res, next) => {
     });
 });
 
+// Connect to Redis server
+redisClient.connect();
+
 // Connect to MongoDB via Mongoose
 connect();
 
@@ -55,6 +55,6 @@ if (process.env.NODE_ENV !== 'test') {
     server = httpServer.listen(0, () => console.log(`The server is running on port 0`));
 }
 
-export { server };
+export { server, redisClient };
 export default router;
 
