@@ -34,16 +34,16 @@ This next command will run all tests.
 ### Posts
 1. /createPost - POST request to create a post. Returns newly created post.
 2. /updatePost -  PUT request to update a post. Returns updated post.
-3. /getPost - GET request to retrieve a post by `_id`. Returns queried post.
+3. /getPost - GET request to retrieve a post by `_id` passed in as a query parameter. Returns queried post.
 4. /getPosts - GET request to retrieve all posts. Returns an array of posts.
-5. /deletePost - DELETE request that deletes a post by `_id'. Returns deleted post.
+5. /deletePost - DELETE request that deletes a post by `_id' passed in as a query parameter. Returns deleted post.
 
 ### Comments
 1. /createComment - POST request to create a comment. Returns newly created comment.
 2. /updateComment -  PUT request to update a comment. Returns updated comment.
-3. /getComment - GET request to retrieve a comment by `_id`. Returns queried comment.
-4. /getComments - GET request to retrieve all comments on a post by `post_id`. Returns an array of comments.
-5. /deleteComment - DELETE request that deletes a comment by `_id'. Returns deleted comment.
+3. /getComment - GET request to retrieve a comment by `_id` passed in as a query parameter. Returns queried comment.
+4. /getComments - GET request to retrieve all comments on a post by `post_id` passed in as a query parameter. Returns an array of comments.
+5. /deleteComment - DELETE request that deletes a comment by `_id' passed in the body. Returns deleted comment.
 
 ## 4. Assumptions made during development
 

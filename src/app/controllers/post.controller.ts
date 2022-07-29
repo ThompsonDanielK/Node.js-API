@@ -46,7 +46,7 @@ const createPost = async (req: Request, res: Response) => {
     });
 };
 
-// GET request to retrieve post by _id
+// GET request to retrieve post by _id passed in as a query parameter
 const getPost = async (req: Request, res: Response) => {
     let result: any;
 
@@ -164,7 +164,7 @@ const updatePost = async (req: Request, res: Response) => {
     });
 };
 
-// DELETE request to delete post by _id
+// DELETE request to delete post by _id passed in as a query parameter
 const deletePost = async (req: Request, res: Response) => {
     let result: any;
 

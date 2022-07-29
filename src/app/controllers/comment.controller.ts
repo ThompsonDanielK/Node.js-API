@@ -53,7 +53,7 @@ const createComment = async (req: Request, res: Response) => {
     });
 };
 
-// GET request to retrieve comment by _id
+// GET request to retrieve comment by _id passed in as a query parameter
 const getComment = async (req: Request, res: Response) => {
     let result: any;
     
@@ -85,7 +85,7 @@ const getComment = async (req: Request, res: Response) => {
     });
 };
 
-// GET request to retrieve all comments
+// GET request to retrieve all comments by post_id passed in as a query parameter
 const getComments = async (req: Request, res: Response) => {
     let result: any;
     
@@ -165,7 +165,7 @@ const updateComment = async (req: Request, res: Response) => {
     });
 };
 
-// DELETE request to delete comment by _id
+// DELETE request to delete comment by _id passed in as a query parameter
 const deleteComment = async (req: Request, res: Response) => {
     let result: any;
     
