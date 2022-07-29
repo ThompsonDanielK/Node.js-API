@@ -6,6 +6,7 @@ import { IPost } from '../../app/interfaces/posts.interface';
 import { Types } from 'mongoose';
 import { PostModel } from '../../app/models/posts.model';
 import { disconnect } from '../../app/utils/db';
+import { redisClient } from "../../app";
 
 describe('comment controller Tests', () => {
 
@@ -66,6 +67,7 @@ describe('comment controller Tests', () => {
     afterEach(async () => {
         await CommentModel.deleteMany({});
         await PostModel.deleteMany({});
+        await redisClient.FLUSHDB();
         await server.close();
     });
 
@@ -73,6 +75,7 @@ describe('comment controller Tests', () => {
         await CommentModel.deleteMany({});
         await PostModel.deleteMany({});
         await disconnect();
+        await redisClient.FLUSHDB();
         await server.close();
     });
 

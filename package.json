@@ -189,7 +189,7 @@
   },
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "repository": {
     "type": "git",

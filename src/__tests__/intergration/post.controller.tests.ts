@@ -3,6 +3,7 @@ import router, { server } from '../../app';
 import { PostModel } from '../../app/models/posts.model';
 import { IPost } from '../../app/interfaces/posts.interface';
 import { disconnect } from '../../app/utils/db';
+import { redisClient } from "../../app";
 
 
 describe('post controller Tests', () => {
@@ -45,12 +46,14 @@ describe('post controller Tests', () => {
 
     afterEach(async () => {
         await PostModel.deleteMany({});
+        await redisClient.FLUSHDB();
         await server.close();
     });
 
     afterAll(async () => {
         await PostModel.deleteMany({});
         await disconnect();
+        await redisClient.FLUSHDB();
         await server.close();
     });
 
@@ -109,17 +112,6 @@ describe('post controller Tests', () => {
         });
 
         it('can create posts', async () => {
-            const expected = {
-                id: "1",
-                content: "test",
-                created_time: date,
-                updated_time: date,
-                user_id: 1,
-                _id: "1"                      
-            };
-    
-            jest.spyOn(PostModel, 'create').mockImplementationOnce(() => Promise.resolve(expected));
-
             const res = await request(router).post(`/createPost`).send(defaultPost);
 
             expect(res.status).toEqual(200);
