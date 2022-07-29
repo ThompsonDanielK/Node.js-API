@@ -1,14 +1,15 @@
-import { PostModel } from "../../db/posts/posts.model";
+import { CommentModel } from "../../app/models/comments.model";
 
-describe('Testing Post Model', () => {
-    test('It creates posts.', async () => {
+describe('Testing Comment Model', () => {
+    test('It creates comments.', async () => {
         const currentDate = new Date(); 
         const ops = {
             id: "1",
             content: "test",
             created_time: currentDate,
             updated_time: currentDate,
-            user_id: 1
+            user_id: 1,
+            post_id: 1
         };
 
         const expected = {
@@ -17,13 +18,14 @@ describe('Testing Post Model', () => {
             created_time: currentDate,
             updated_time: currentDate,
             user_id: 1,
+            post_id: 1,
             _id: "1"                      
         };
 
-        jest.spyOn(PostModel, 'create').mockImplementationOnce(() => Promise.resolve(expected));
+        jest.spyOn(CommentModel, 'create').mockImplementationOnce(() => Promise.resolve(expected));
 
-        let result =  await PostModel.create(ops);
+        let result =  await CommentModel.create(ops);
 
         expect(result).toEqual(expected);
     });
-  });
+});
