@@ -6,7 +6,7 @@ import { IPost } from '../../app/interfaces/posts.interface';
 import { Types } from 'mongoose';
 import { PostModel } from '../../app/models/posts.model';
 import { disconnect } from '../../app/utils/db';
-import { redisClient } from "../../app";
+import { redisClient } from '../../app';
 
 describe('comment controller Tests', () => {
 

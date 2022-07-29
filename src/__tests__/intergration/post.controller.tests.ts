@@ -3,7 +3,7 @@ import router, { server } from '../../app';
 import { PostModel } from '../../app/models/posts.model';
 import { IPost } from '../../app/interfaces/posts.interface';
 import { disconnect } from '../../app/utils/db';
-import { redisClient } from "../../app";
+import { redisClient } from '../../app';
 
 
 describe('post controller Tests', () => {

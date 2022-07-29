@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
-import { PostModel } from "../models/posts.model";
-import { redisClient } from "../../app";
+import { Request, Response } from 'express';
+import { PostModel } from '../models/posts.model';
+import { redisClient } from '../../app';
 
 // POST request to create a post.
 const createPost = async (req: Request, res: Response) => {
 
     if (!req.body.content) {
         return res.status(400).json({
-            message: "Content must not be null or an empty string."
+            message: 'Content must not be null or an empty string.'
         });
     }
 
     if (!req.body.user_id) {
         return res.status(400).json({
-            message: "user_id must not be null."
+            message: 'user_id must not be null.'
         });
     }
 
@@ -37,7 +37,7 @@ const createPost = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
@@ -52,7 +52,7 @@ const getPost = async (req: Request, res: Response) => {
 
     if (!req.query._id) {
         return res.status(400).json({
-            message: "The _id query parameter must not be null or an empty string."
+            message: 'The _id query parameter must not be null or an empty string.'
         });
     }
     
@@ -69,13 +69,13 @@ const getPost = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
     if (!result) {
         return res.status(404).json({
-            message: "The queried post does not exist."
+            message: 'The queried post does not exist.'
         });
     }
     
@@ -101,7 +101,7 @@ const getPosts = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
@@ -115,19 +115,19 @@ const updatePost = async (req: Request, res: Response) => {
 
     if (!req.body.content) {
         return res.status(400).json({
-            message: "Content must not be null or an empty string."
+            message: 'Content must not be null or an empty string.'
         });
     }
 
     if (!req.body.user_id) {
         return res.status(400).json({
-            message: "user_id must not be null."
+            message: 'user_id must not be null.'
         });
     }
 
     if (!req.body._id) {
         return res.status(400).json({
-            message: "_id must not be null."
+            message: '_id must not be null.'
         });
     }
 
@@ -149,13 +149,13 @@ const updatePost = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
     if (result == null) {
         return res.status(404).json({
-            message: "The queried post does not exist."
+            message: 'The queried post does not exist.'
         });
     }
 
@@ -170,7 +170,7 @@ const deletePost = async (req: Request, res: Response) => {
 
     if (!req.query._id) {
         return res.status(400).json({
-            message: "The _id query parameter must not be null or an empty string."
+            message: 'The _id query parameter must not be null or an empty string.'
         });
     }
     
@@ -182,7 +182,7 @@ const deletePost = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 

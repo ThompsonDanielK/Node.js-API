@@ -1,25 +1,25 @@
-import express, { Request, Response } from "express";
-import { CommentModel } from "../models/comments.model";
-import { redisClient } from "../../app";
+import express, { Request, Response } from 'express';
+import { CommentModel } from '../models/comments.model';
+import { redisClient } from '../../app';
 
 // POST request to create a comment.
 const createComment = async (req: Request, res: Response) => {
 
     if (!req.body.content) {
         return res.status(400).json({
-            message: "Content must not be null or an empty string."
+            message: 'Content must not be null or an empty string.'
         });
     }
 
     if (!req.body.post_id) {
         return res.status(400).json({
-            message: "post_id must not be null or an empty string."
+            message: 'post_id must not be null or an empty string.'
         });
     }
 
     if (!req.body.user_id) {
         return res.status(400).json({
-            message: "user_id must not be null."
+            message: 'user_id must not be null.'
         });
     }
 
@@ -44,7 +44,7 @@ const createComment = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
@@ -70,13 +70,13 @@ const getComment = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
     if (!result) {
         return res.status(404).json({
-            message: "The queried comment does not exist."
+            message: 'The queried comment does not exist.'
         });
     }
 
@@ -102,7 +102,7 @@ const getComments = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
@@ -116,19 +116,19 @@ const updateComment = async (req: Request, res: Response) => {
 
     if (!req.body.content) {
         return res.status(400).json({
-            message: "Content must not be null or an empty string."
+            message: 'Content must not be null or an empty string.'
         });
     }
 
     if (!req.body.user_id) {
         return res.status(400).json({
-            message: "user_id must not be null."
+            message: 'user_id must not be null.'
         });
     }
 
     if (!req.body._id) {
         return res.status(400).json({
-            message: "_id must not be null."
+            message: '_id must not be null.'
         });
     }
 
@@ -150,13 +150,13 @@ const updateComment = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
     if (!result) {
         return res.status(404).json({
-            message: "The queried comment does not exist."
+            message: 'The queried comment does not exist.'
         });
     }
 
@@ -177,7 +177,7 @@ const deleteComment = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            message: "An error has occurred."
+            message: 'An error has occurred.'
         });
     }
 
