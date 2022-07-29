@@ -4,7 +4,13 @@ let database: mongoose.Connection;
 
 export const connect = async () => {
 
-    const uri = "mongodb://127.0.0.1:27017/local";
+    let uri;
+
+    if (process.env.NODE_ENV !== 'test') {
+        uri = "mongodb://127.0.0.1:27017/local";
+    } else {
+        uri = "mongodb://127.0.0.1:27017/test";
+    }
 
     if (database) {
         return;
