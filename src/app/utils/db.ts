@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 let database: mongoose.Connection;
 
@@ -20,12 +20,12 @@ export const connect = async () => {
 
     database = mongoose.connection;
 
-    database.once("open", async () => {
-        console.log("Connected to database");
+    database.once('open', async () => {
+        console.log('Connected to database');
     });
 
-    database.on("error", () => {
-        console.log("Error connecting to database");
+    database.on('error', () => {
+        console.log('Error connecting to database');
     });
 };
 

@@ -1,5 +1,5 @@
-import mongoose, { Schema, Model, model } from "mongoose";
-import { IPostModel } from "../interfaces/posts.interface";
+import mongoose, { Schema, Model, model } from 'mongoose';
+import { IPostModel } from '../interfaces/posts.interface';
 
 const postSchema = new Schema({
     content: String,

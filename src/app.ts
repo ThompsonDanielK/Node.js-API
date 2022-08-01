@@ -2,7 +2,7 @@ import http from 'http';
 import 'dotenv/config'
 import express, { Express } from 'express';
 import routes from './routes/router';
-import { connect } from "./app/utils/db";
+import { connect } from './app/utils/db';
 import * as redis from 'redis';
 
 // Starting express service

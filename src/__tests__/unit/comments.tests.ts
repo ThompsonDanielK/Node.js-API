@@ -1,11 +1,11 @@
-import { CommentModel } from "../../app/models/comments.model";
+import { CommentModel } from '../../app/models/comments.model';
 
 describe('Testing Comment Model', () => {
     test('It creates comments.', async () => {
         const currentDate = new Date(); 
         const ops = {
-            id: "1",
-            content: "test",
+            id: '1',
+            content: 'test',
             created_time: currentDate,
             updated_time: currentDate,
             user_id: 1,
@@ -13,13 +13,13 @@ describe('Testing Comment Model', () => {
         };
 
         const expected = {
-            id: "1",
-            content: "test",
+            id: '1',
+            content: 'test',
             created_time: currentDate,
             updated_time: currentDate,
             user_id: 1,
             post_id: 1,
-            _id: "1"                      
+            _id: '1'                      
         };
 
         jest.spyOn(CommentModel, 'create').mockImplementationOnce(() => Promise.resolve(expected));
