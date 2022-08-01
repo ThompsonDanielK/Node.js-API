@@ -12,7 +12,14 @@ I created this app to showcase and build skill in developing Node.js APIs that u
 
 ## 1. Environment and App Setup
 
-To use this app you must have a MongoDB database running. Paste your connection string in place of the default value in src>utils>db.ts. You must also have a redis server running. You must add your hostname, port, and password in place of the default values in src>app.ts.
+To use this app you must have a MongoDB database and a redis server. Create a file at the root of your directory named '.env'. Format it like the following and replace the values with your own:
+
+    HOST='YOUR_VALUE_HERE'
+    PORT=YOUR_VALUE_HERE
+    REDIS_PASSWORD='YOUR_VALUE_HERE'
+    MONGODB_PATH_PROD='YOUR_VALUE_HERE'
+    MONGODB_PATH_TEST='YOUR_VALUE_HERE'
+
 
 ## 2. How to build/run the app
 
