@@ -1,16 +1,20 @@
 import http from 'http';
+import 'dotenv/config'
 import express, { Express } from 'express';
 import routes from './routes/router';
 import { connect } from "./app/utils/db";
 import * as redis from 'redis';
 
+// Starting express service
 const router: Express = express();
+
+// Starting redis client
 const redisClient = redis.createClient({
     socket: {
-        host: '127.0.0.1',
-        port: 6379
+        host: process.env.HOST,
+        port: Number(process.env.PORT)
     },
-    password: 'Lolo1459*'
+    password: process.env.REDIS_PASSWORD
 });
 
 router.use(express.urlencoded({ extended: false }));
@@ -40,7 +44,11 @@ router.use((req, res, next) => {
 });
 
 // Connect to Redis server
-redisClient.connect();
+const redisConnect = async() => {
+    await redisClient.connect();
+};
+
+redisConnect();
 
 // Connect to MongoDB via Mongoose
 connect();

@@ -7,16 +7,16 @@ export const connect = async () => {
     let uri;
 
     if (process.env.NODE_ENV !== 'test') {
-        uri = "mongodb://127.0.0.1:27017/local";
+        uri = process.env.MONGODB_PATH_PROD;
     } else {
-        uri = "mongodb://127.0.0.1:27017/test";
+        uri = process.env.MONGODB_PATH_TEST;
     }
 
     if (database) {
         return;
     }
 
-    await mongoose.connect(uri);
+    await mongoose.connect(uri!);
 
     database = mongoose.connection;
 
