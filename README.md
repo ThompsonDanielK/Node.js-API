@@ -1,4 +1,4 @@
-# DanThompsonBackendWorkSample
+# Node.js API
 
 I created this app to showcase and build skill in developing Node.js APIs that utilizes Redis for query caching and MongoDB as a database.
 
